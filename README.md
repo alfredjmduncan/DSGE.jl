@@ -1,3 +1,15 @@
+# Loading dev branch
+```julia
+Pkg.clone("https://github.com/alfredjmduncan/DSGE.jl")
+Pkg.checkout("DSGE","dev")
+using DSGE#dev
+```
+Then you can generate a DuncanNolanNK model by calling
+```julia
+m = DuncanNolanNK()
+```
+
+
 # New York Fed DSGE Model (Version 1002)
 
 [![Build Status](https://travis-ci.org/FRBNY-DSGE/DSGE.jl.svg)](https://travis-ci.org/FRBNY-DSGE/DSGE.jl)
