@@ -120,7 +120,13 @@ Initializes indices for all of `m`'s states, shocks, and equilibrium conditions.
 function init_model_indices!(m::DuncanNolanNK)
     # Endogenous states
     endogenous_states = collect([
-        :y_t, :π_t, :R_t, :y_t1, :g_t, :z_t, :Ey_t1, :Eπ_t1])
+        :y_t, :c_t, :ce_t,
+        :omegae_t, :lev_t, :tau_t,
+        :n_t, :w_t,
+        :R_t, :r_t, :re_t,
+        :π_t, :y_t1,
+        :g_t, :z_t,
+        :Ec_t1, :Eπ_t1])
 
     # Exogenous shocks
     exogenous_shocks = collect([
@@ -128,11 +134,21 @@ function init_model_indices!(m::DuncanNolanNK)
 
     # Expectations shocks
     expected_shocks = collect([
-        :Ey_sh, :Eπ_sh])
+        :Ec_sh, :Eπ_sh])
 
     # Equilibrium conditions
     equilibrium_conditions = collect([
-        :eq_euler, :eq_phillips, :eq_mp, :eq_y_t1, :eq_g, :eq_z, :eq_Ey, :eq_Eπ])
+        :eq_euler,
+        :eq_labsup,
+        :eq_prod,
+        :eq_entcon,
+        :eq_entlev,
+        :eq_entweg,
+        :eq_entwel,
+        :eq_fpcap,
+        :eq_fplab,
+        :eq_fisher,
+        :eq_phillips, :eq_mp, :eq_y_t1, :eq_g, :eq_z, :eq_Ec, :eq_Eπ])
 
     # Additional states added after solving model
     # Lagged states and observables measurement error
@@ -215,6 +231,28 @@ those).
 """
 function init_parameters!(m::DuncanNolanNK)
     # Initialize parameters
+    m <= parameter(:psi, 1.9937, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+                   description="psi: The inverse of the Frisch labour supply elasticity.",
+                   tex_label="\\psi")
+
+    m <= parameter(:alpha, 0.25, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
+                   description="alpha: The capital share of output.",
+                   tex_label="\\alpha")
+
+    m <= parameter(:phitau, 0.5, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.5, 0.25), fixed=false,
+                   description="phitau: Semi-elasticity of leverage to the factor wedge.",
+                   tex_label="\\phi_\tau")
+
+
+    m <= parameter(:psilev, 0.01, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.01, 0.02), fixed=false,
+                   description="psilev: elasticity of ERP to leverage.",
+                   tex_label="\\psi_l")
+
+    m <= parameter(:psitau, 0.5, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.5, 0.25), fixed=false,
+                   description="psitau: elasticity of ERP to tau.",
+                   tex_label="\\psi_\tau")
+
+
     m <= parameter(:τ, 1.9937, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="τ: The inverse of the intemporal elasticity of substitution.",
                    tex_label="\\tau")
@@ -307,7 +345,7 @@ function settings_duncan_nolan_nk!(m::DuncanNolanNK)
                  "Jump size for Metropolis-Hastings (after initialization)")
 
     # Forecast
-    m <= Setting(:use_population_forecast, true,
+    m <= Setting(:use_population_forecast, false,
                  "Whether to use population forecasts as data")
     m <= Setting(:forecast_zlb_value, 0.13,
         "Value of the zero lower bound in forecast periods, if we choose to enforce it")
