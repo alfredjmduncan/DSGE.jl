@@ -231,24 +231,24 @@ those).
 """
 function init_parameters!(m::DuncanNolanNK)
     # Initialize parameters
-    m <= parameter(:psi, 1.9937, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+    m <= parameter(:psi, 1.9937, fixed=true,#(1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="psi: The inverse of the Frisch labour supply elasticity.",
                    tex_label="\\psi")
 
-    m <= parameter(:alpha, 0.25, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
+    m <= parameter(:alpha, 0.25, fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
                    description="alpha: The capital share of output.",
                    tex_label="\\alpha")
 
-    m <= parameter(:phitau, 0.5, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.5, 0.25), fixed=false,
+    m <= parameter(:phitau, 0.5, fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.5, 0.25), fixed=false,
                    description="phitau: Semi-elasticity of leverage to the factor wedge.",
                    tex_label="\\phi_\tau")
 
 
-    m <= parameter(:psilev, 0.01, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.01, 0.02), fixed=false,
+    m <= parameter(:psilev, 0.01, fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.01, 0.02), fixed=false,
                    description="psilev: elasticity of ERP to leverage.",
                    tex_label="\\psi_l")
 
-    m <= parameter(:psitau, 0.5, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.5, 0.25), fixed=false,
+    m <= parameter(:psitau, 0.5, fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.5, 0.25), fixed=false,
                    description="psitau: elasticity of ERP to tau.",
                    tex_label="\\psi_\tau")
 
