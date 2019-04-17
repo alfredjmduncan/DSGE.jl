@@ -120,11 +120,11 @@ Initializes indices for all of `m`'s states, shocks, and equilibrium conditions.
 function init_model_indices!(m::DuncanNolanNK)
     # Endogenous states
     endogenous_states = collect([
-        :y_t, :c_t, :ce_t,
+        :y_t, :π_t, :R_t, :y_t1,    # Start with observables in the same order
         :omegae_t, :lev_t, :tau_t,
         :n_t, :w_t,
-        :R_t, :r_t, :re_t,
-        :π_t, :y_t1,
+        :r_t, :re_t,
+        :c_t, :ce_t,
         :g_t, :z_t,
         :Ec_t1, :Eπ_t1])
 
