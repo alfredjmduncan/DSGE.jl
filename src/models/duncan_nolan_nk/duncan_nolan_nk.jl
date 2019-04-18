@@ -234,11 +234,11 @@ those).
 """
 function init_parameters!(m::DuncanNolanNK)
     # Initialize parameters
-    m <= parameter(:psi, 1.9937, fixed=true,#(1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+    m <= parameter(:psi, 2, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="psi: The inverse of the Frisch labour supply elasticity.",
                    tex_label="\\psi")
 
-    m <= parameter(:alpha, 0.25, fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
+    m <= parameter(:alpha, 0.25, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
                    description="alpha: The capital share of output.",
                    tex_label="\\alpha")
 
@@ -353,7 +353,7 @@ function settings_duncan_nolan_nk!(m::DuncanNolanNK)
 
     # Estimation
     m <= Setting(:reoptimize, true)
-    m <= Setting(:recalculate_hessian, true)                 
+    m <= Setting(:recalculate_hessian, true)
 
     # Forecast
     m <= Setting(:use_population_forecast, false,
