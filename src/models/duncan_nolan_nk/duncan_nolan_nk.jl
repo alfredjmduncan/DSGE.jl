@@ -234,7 +234,7 @@ those).
 """
 function init_parameters!(m::DuncanNolanNK)
     # Initialize parameters
-    m <= parameter(:psi, 2, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+    m <= parameter(:psi, 2.0, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="psi: The inverse of the Frisch labour supply elasticity.",
                    tex_label="\\psi")
 
