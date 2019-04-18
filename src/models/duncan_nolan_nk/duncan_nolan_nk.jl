@@ -351,6 +351,10 @@ function settings_duncan_nolan_nk!(m::DuncanNolanNK)
     m <= Setting(:mh_cc, 0.27,
                  "Jump size for Metropolis-Hastings (after initialization)")
 
+    # Estimation
+    m <= Setting(:reoptimize, true)
+    m <= Setting(:recalculate_hessian, true)                 
+
     # Forecast
     m <= Setting(:use_population_forecast, false,
                  "Whether to use population forecasts as data")
