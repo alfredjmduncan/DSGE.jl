@@ -110,14 +110,14 @@ function eqcond(m::DuncanNolanNK)
 
     ### 13. Wages and salaries lag
 
-    Γ0[eq[:eq_wn], endo[:wn_t]] = -1
-    Γ0[eq[:eq_wn], endo[:w_t]]  =  1
-    Γ0[eq[:eq_wn], endo[:n_t]]  =  1
+    Γ0[eq[:eq_nw], endo[:nw_t]] = -1
+    Γ0[eq[:eq_nw], endo[:w_t]]  =  1
+    Γ0[eq[:eq_nw], endo[:n_t]]  =  1
 
     ### 13. Wages and salaries lag
 
-    Γ0[eq[:eq_wn_t1], endo[:wn_t1]] = 1
-    Γ1[eq[:eq_wn_t1], endo[:wn_t]]  = 1
+    Γ0[eq[:eq_nw_t1], endo[:nw_t1]] = 1
+    Γ1[eq[:eq_nw_t1], endo[:nw_t]]  = 1
 
     ### 13. Output lag
 

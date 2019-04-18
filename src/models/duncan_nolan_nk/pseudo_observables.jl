@@ -1,6 +1,6 @@
 function init_pseudo_observable_mappings!(m::DuncanNolanNK)
 
-    pseudo_names = [:y_t, :π_t, :z_t, :NominalFFR, :RealFFR]
+    pseudo_names = [:y_t, :π_t, :z_t, :NominalFFR, :RealFFR, :nw_t]
 
     # Create PseudoObservable objects
     pseudo = OrderedDict{Symbol,PseudoObservable}()
@@ -26,7 +26,7 @@ function init_pseudo_observable_mappings!(m::DuncanNolanNK)
     pseudo[:RealFFR].longname = "Real FFR at an annual rate"
 
     pseudo[:nw_t].name = "Labor income"
-    pseudo[:nw_t].longname = "Real growth in wages and salaries"    
+    pseudo[:nw_t].longname = "Real growth in wages and salaries"
 
     # Add to model object
     m.pseudo_observable_mappings = pseudo

@@ -120,8 +120,8 @@ Initializes indices for all of `m`'s states, shocks, and equilibrium conditions.
 function init_model_indices!(m::DuncanNolanNK)
     # Endogenous states
     endogenous_states = collect([
-        :y_t,   :π_t,   :R_t,   :wn_t,   # Start with observables in the same order
-        :y_t1,  :wn_t1,
+        :y_t,   :π_t,   :R_t,   :nw_t,   # Start with observables in the same order
+        :y_t1,  :nw_t1,
         :lev_t, :tau_t, :omegae_t,
         :n_t,   :w_t,
         :r_t,   :re_t,
@@ -150,7 +150,7 @@ function init_model_indices!(m::DuncanNolanNK)
         :eq_fplab,
         :eq_fisher,
         :eq_phillips, :eq_mp,
-        :eq_wn,  :eq_wn_t1,
+        :eq_nw,  :eq_nw_t1,
         :eq_y_t1, :eq_g, :eq_z, :eq_Ec, :eq_Eπ])
 
     # Additional states added after solving model
@@ -320,9 +320,9 @@ function init_parameters!(m::DuncanNolanNK)
                    description="e_R: Measurement error on the interest rate.",
                    tex_label="e_R")
 
-    m <= parameter(:e_wn, 0.20*0.579923, fixed=true,
-                  description="e_{wn}: Measurement error on labor income growth.",
-                  tex_label="e_{wn}")
+    m <= parameter(:e_nw, 0.20*0.579923, fixed=true,
+                  description="e_{nw}: Measurement error on labor income growth.",
+                  tex_label="e_{nw}")
 end
 
 """
