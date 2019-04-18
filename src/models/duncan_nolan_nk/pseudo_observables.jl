@@ -25,6 +25,9 @@ function init_pseudo_observable_mappings!(m::DuncanNolanNK)
     pseudo[:RealFFR].name     = "Real FFR"
     pseudo[:RealFFR].longname = "Real FFR at an annual rate"
 
+    pseudo[:nw_t].name = "Labor income"
+    pseudo[:nw_t].longname = "Real growth in wages and salaries"    
+
     # Add to model object
     m.pseudo_observable_mappings = pseudo
 end

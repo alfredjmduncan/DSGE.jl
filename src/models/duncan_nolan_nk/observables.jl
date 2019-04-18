@@ -58,5 +58,25 @@ function init_observable_mappings!(m::DuncanNolanNK)
                                                "Nominal FFR",
                                                "Nominal Effective Fed Funds Rate")
 
+
+   ############################################################################
+   ## 4. Wages and salaries
+   ############################################################################
+
+   wagsal_fwd_transform = function (levels)
+       # FROM: Level of Wages and Salaries (from FRED)
+       # TO: Quarter-to-quarter percent change of real wages and salaries
+
+       levels[:temp] = percapita(m, :A4102C1Q027SBEA, levels)
+       wagsal = 1000 * nominal_to_real(:temp, levels)
+       oneqtrpctchange(wagsal)
+   end
+
+   wagsal_rev_transform = loggrowthtopct_annualized_percapita
+
+   observables[:obs_wagsal] = Observable(:obs_wagsal, [:A4102C1Q027SBEA__FRED, population_mnemonic, :GDPDEF__FRED],
+                                      wagsal_fwd_transform, wagsal_rev_transform,
+                                      "Real Labour Income Growth", "Real Labour Income Growth Per Capita")
+
     m.observable_mappings = observables
 end

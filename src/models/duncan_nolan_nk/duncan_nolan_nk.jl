@@ -120,12 +120,13 @@ Initializes indices for all of `m`'s states, shocks, and equilibrium conditions.
 function init_model_indices!(m::DuncanNolanNK)
     # Endogenous states
     endogenous_states = collect([
-        :y_t, :π_t, :R_t, :y_t1,    # Start with observables in the same order
-        :omegae_t, :lev_t, :tau_t,
-        :n_t, :w_t,
-        :r_t, :re_t,
-        :c_t, :ce_t,
-        :g_t, :z_t,
+        :y_t,   :π_t,   :R_t,   :wn_t,   # Start with observables in the same order
+        :y_t1,  :wn_t1,
+        :lev_t, :tau_t, :omegae_t,
+        :n_t,   :w_t,
+        :r_t,   :re_t,
+        :c_t,   :ce_t,
+        :g_t,   :z_t,
         :Ec_t1, :Eπ_t1])
 
     # Exogenous shocks
@@ -148,7 +149,9 @@ function init_model_indices!(m::DuncanNolanNK)
         :eq_fpcap,
         :eq_fplab,
         :eq_fisher,
-        :eq_phillips, :eq_mp, :eq_y_t1, :eq_g, :eq_z, :eq_Ec, :eq_Eπ])
+        :eq_phillips, :eq_mp,
+        :eq_wn,  :eq_wn_t1,
+        :eq_y_t1, :eq_g, :eq_z, :eq_Ec, :eq_Eπ])
 
     # Additional states added after solving model
     # Lagged states and observables measurement error
@@ -316,6 +319,10 @@ function init_parameters!(m::DuncanNolanNK)
     m <= parameter(:e_R, 0.20*2.237937, fixed=true,
                    description="e_R: Measurement error on the interest rate.",
                    tex_label="e_R")
+
+    m <= parameter(:e_wn, 0.20*0.579923, fixed=true,
+                  description="e_{wn}: Measurement error on labor income growth.",
+                  tex_label="e_{wn}")
 end
 
 """

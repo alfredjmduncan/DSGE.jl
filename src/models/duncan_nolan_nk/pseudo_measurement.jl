@@ -47,5 +47,8 @@ function pseudo_measurement{T<:AbstractFloat}(m::DuncanNolanNK{T},
     ZZ_pseudo[pseudo[:RealFFR], endo[:π_t]] = -4.
     DD_pseudo[pseudo[:RealFFR]] = m[:π_star] + m[:rA] + 4.0*m[:γ_Q] - 4.0*(100. * (m[:π_star] - 1.))
 
+    ## Wages and Salaries
+    ZZ_pseudo[pseudo[:nw_t],endo[:nw_t]] = 1.
+
     return PseudoMeasurement(ZZ_pseudo, DD_pseudo)
 end

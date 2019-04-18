@@ -50,10 +50,16 @@ function measurement{T<:AbstractFloat}(m::DuncanNolanNK{T},
     ZZ[obs[:obs_nominalrate], endo[:R_t]] = 4.0
     DD[obs[:obs_nominalrate]]             = m[:π_star] + m[:rA] + 4.0*m[:γ_Q]
 
+    ## Output growth
+    ZZ[obs[:obs_wagsal], endo[:nw_t]]  = 1.0
+    ZZ[obs[:obs_wagsal], endo[:nw_t1]] = -1.0
+    DD[obs[:obs_wagsal]]              = m[:γ_Q]
+
     # Measurement error
     EE[obs[:obs_gdp], endo[:y_t]]         = m[:e_y]^2
     EE[obs[:obs_cpi], endo[:π_t]]         = m[:e_π]^2
     EE[obs[:obs_nominalrate], endo[:R_t]] = m[:e_R]^2
+    EE[obs[:obs_wagsal], endo[:nw_t]]     = m[:e_nw]^2    
 
     # Variance of innovations
     QQ[exo[:z_sh],exo[:z_sh]]   = (m[:σ_z])^2

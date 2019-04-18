@@ -108,10 +108,21 @@ function eqcond(m::DuncanNolanNK)
     Γ1[eq[:eq_mp], endo[:R_t]] =  m[:ρ_R]
     Ψ[eq[:eq_mp],  exo[:rm_sh]] =  1
 
+    ### 13. Wages and salaries lag
+
+    Γ0[eq[:eq_wn], endo[:wn_t]] = -1
+    Γ0[eq[:eq_wn], endo[:w_t]]  =  1
+    Γ0[eq[:eq_wn], endo[:n_t]]  =  1
+
+    ### 13. Wages and salaries lag
+
+    Γ0[eq[:eq_wn_t1], endo[:wn_t1]] = 1
+    Γ1[eq[:eq_wn_t1], endo[:wn_t]]  = 1
+
     ### 13. Output lag
 
     Γ0[eq[:eq_y_t1], endo[:y_t1]] = 1
-    Γ1[eq[:eq_y_t1], endo[:y_t]] = 1
+    Γ1[eq[:eq_y_t1], endo[:y_t]]  = 1
 
     ### 14. Government spending
 
