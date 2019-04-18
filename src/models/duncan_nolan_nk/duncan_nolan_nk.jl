@@ -242,7 +242,7 @@ function init_parameters!(m::DuncanNolanNK)
                    description="alpha: The capital share of output.",
                    tex_label="\\alpha")
 
-    m <= parameter(:phitau, 0.5, fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.5, 0.25), fixed=false,
+    m <= parameter(:phitau, 0.5, fixed=true, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.5, 0.25), fixed=false,
                    description="phitau: Semi-elasticity of leverage to the factor wedge.",
                    tex_label="\\phi_\tau")
 
