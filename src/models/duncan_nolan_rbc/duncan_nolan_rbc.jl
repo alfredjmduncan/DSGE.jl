@@ -163,7 +163,7 @@ function init_model_indices!(m::DuncanNolanRBC)
         :eq_entweg,
         :eq_entwel,
         :eq_fpcap,
-        :eq_fperp,        
+        :eq_fperp,
         :eq_fplab,
         :eq_nw,
         :eq_nw_t1,
@@ -286,11 +286,11 @@ function init_parameters!(m::DuncanNolanRBC)
                    tex_label="erp")
 
     m <= parameter(:CoCtot, 0.8, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(.7, 0.95), fixed=false,
-                   description="I over Y: Investment share of output.",
-                   tex_label="CoY")
+                   description="C over Ctot: Household share of consumption.",
+                   tex_label="CoCtot")
 
     m <= parameter(:CoY, 0.64, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.64, 0.02), fixed=false,
-                   description="I over Y: Investment share of output.",
+                   description="C over Y: Consumption share of output.",
                    tex_label="CoY")
 
     m <= parameter(:IoY, 0.17, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.17, 0.02), fixed=false,

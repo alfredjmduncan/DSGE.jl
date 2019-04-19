@@ -94,16 +94,16 @@ function eqcond(m::DuncanNolanRBC)
 
     ### 11. Factor Prices: Capital
 
-    Γ0[eq[:eq_fpcap], endo[:r_t]]   = -1
-    Γ0[eq[:eq_fpcap], endo[:y_t]]   =  (1-m[:beta]*(1-m[:delta]))
-    Γ1[eq[:eq_fpcap], endo[:k_t]]   = -(1-m[:beta]*(1-m[:delta]))
-    Γ0[eq[:eq_fpcap], endo[:tau_t]] = -(1-m[:beta]*(1-m[:delta]))
+    Γ0[eq[:eq_fpcap], endo[:r_t]]   = -1/(1-m[:beta]*(1-m[:delta]))
+    Γ0[eq[:eq_fpcap], endo[:y_t]]   =  1
+    Γ1[eq[:eq_fpcap], endo[:k_t]]   = -1
+    Γ0[eq[:eq_fpcap], endo[:tau_t]] = -1
 
     ### 12. Factor Prices: ERP
 
     Γ0[eq[:eq_fperp], endo[:re_t]]   = -1
     Γ0[eq[:eq_fperp], endo[:r_t]]    =  1
-    Γ0[eq[:eq_fperp], endo[:lev_t]]    =  m[:erp]
+    Γ0[eq[:eq_fperp], endo[:lev_t]]  =  m[:erp]
     Γ0[eq[:eq_fperp], endo[:tau_t]]  =  m[:L]
 
 
