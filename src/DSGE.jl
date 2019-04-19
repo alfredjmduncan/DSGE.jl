@@ -122,7 +122,10 @@ module DSGE
 
         # models/
         init_parameters!, steadystate!, init_observable_mappings!, init_pseudo_observable_mappings!,
-        Model990, Model1002, Model1010, SmetsWouters, AnSchorfheide, DuncanNolanNK, eqcond, measurement, pseudo_measurement,
+        Model990, Model1002, Model1010, SmetsWouters, AnSchorfheide,
+        DuncanNolanNK,
+        DuncanNolanRBC, 
+        eqcond, measurement, pseudo_measurement,
         shock_groupings,
 
         # util
