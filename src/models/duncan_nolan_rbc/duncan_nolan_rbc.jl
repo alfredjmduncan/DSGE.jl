@@ -154,6 +154,7 @@ function init_model_indices!(m::DuncanNolanRBC)
         :eq_nw,
         :eq_nw_t1,
         :eq_y_t1,
+        :eq_ctot_t1,        
         :eq_g,
         :eq_z,
         :eq_xi,
