@@ -65,7 +65,7 @@ function eqcond(m::DuncanNolanRBC)
 
     Γ0[eq[:eq_cap], endo[:k_t]]    = -1
     Γ1[eq[:eq_cap], endo[:k_t]]    = (1 - m[:delta])
-    Γ1[eq[:eq_cap], endo[:i_t]]    =  m[:delta]
+    Γ0[eq[:eq_cap], endo[:i_t]]    =  m[:delta]
 
     ### 7. Entrepreneurs: Consumption savings
 
