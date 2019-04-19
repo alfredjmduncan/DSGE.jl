@@ -70,14 +70,14 @@ function eqcond(m::DuncanNolanRBC)
     ### 7. Entrepreneurs: Consumption savings
 
     Γ0[eq[:eq_entcon], endo[:ce_t]]      = -1
-    Γ0[eq[:eq_entcon], endo[:omegae_t]]  =  1
+    Γ1[eq[:eq_entcon], endo[:omegae_t]]  =  1
     Γ0[eq[:eq_entcon], endo[:re_t]]      =  1
 
     ### 8. Entrepreneurs: Leverage
 
     Γ0[eq[:eq_entlev], endo[:lev_t]]     = -1
     Γ0[eq[:eq_entlev], endo[:y_t]]       =  1
-    Γ0[eq[:eq_entlev], endo[:omegae_t]]  = -1
+    Γ1[eq[:eq_entlev], endo[:omegae_t]]  = -1
     Γ0[eq[:eq_entlev], endo[:r_t]]       = -1
 
     ### 9. Entrepreneurs: Wedge
@@ -89,7 +89,7 @@ function eqcond(m::DuncanNolanRBC)
     ### 10. Entrepreneurs: Wealth evolution
 
     Γ0[eq[:eq_entwel], endo[:omegae_t]] = -1
-    Γ1[eq[:eq_entwel], endo[:re_t]]     = -1
+    Γ0[eq[:eq_entwel], endo[:re_t]]     = -1
     Γ1[eq[:eq_entwel], endo[:omegae_t]] = -1
 
     ### 11. Factor Prices: Capital
