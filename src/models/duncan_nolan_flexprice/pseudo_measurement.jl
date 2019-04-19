@@ -1,6 +1,6 @@
 """
 ```
-pseudo_measurement{T<:AbstractFloat}(m::DuncanNolanRBC{T},
+pseudo_measurement{T<:AbstractFloat}(m::DuncanNolanFlexPrice{T},
     TTT::Matrix{T}, RRR::Matrix{T}, CCC::Vector{T})
 ```
 
@@ -10,7 +10,7 @@ Assign pseudo-measurement equation (a linear combination of states):
 x_t = ZZ_pseudo*s_t + DD_pseudo
 ```
 """
-function pseudo_measurement{T<:AbstractFloat}(m::DuncanNolanRBC{T},
+function pseudo_measurement{T<:AbstractFloat}(m::DuncanNolanFlexPrice{T},
                                               TTT::Matrix{T},
                                               RRR::Matrix{T},
                                               CCC::Vector{T})
@@ -32,7 +32,7 @@ function pseudo_measurement{T<:AbstractFloat}(m::DuncanNolanRBC{T},
     ZZ_pseudo[pseudo[:y_t],endo[:y_t]] = 1.
 
     ## Consumption
-    ZZ_pseudo[pseudo[:c_t],endo[:c_t]] = 1.
+    ZZ_pseudo[pseudo[:ctot_t],endo[:ctot_t]] = 1.
 
     ## Wages and Salaries
     ZZ_pseudo[pseudo[:nw_t],endo[:nw_t]] = 1.

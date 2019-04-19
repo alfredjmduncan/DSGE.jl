@@ -1,6 +1,6 @@
 """
 ```
-measurement{T<:AbstractFloat}(m::DuncanNolanRBC{T}, TTT::Matrix{T},
+measurement{T<:AbstractFloat}(m::DuncanNolanFlexPrice{T}, TTT::Matrix{T},
                               RRR::Matrix{T}, CCC::Vector{T})
 ```
 
@@ -18,7 +18,7 @@ Var(u_t) = EE
 Cov(ϵ_t, u_t) = 0
 ```
 """
-function measurement{T<:AbstractFloat}(m::DuncanNolanRBC{T},
+function measurement{T<:AbstractFloat}(m::DuncanNolanFlexPrice{T},
                                        TTT::Matrix{T},
                                        RRR::Matrix{T},
                                        CCC::Vector{T})
@@ -42,8 +42,8 @@ function measurement{T<:AbstractFloat}(m::DuncanNolanRBC{T},
     DD[obs[:obs_gdp]]              = m[:γ_Q]
 
     ## Consumption growth
-    ZZ[obs[:obs_con], endo[:c_t]]  = 1.0
-    ZZ[obs[:obs_con], endo[:c_t1]] = -1.0
+    ZZ[obs[:obs_con], endo[:ctot_t]]  = 1.0
+    ZZ[obs[:obs_con], endo[:ctot_t1]] = -1.0
     DD[obs[:obs_con]]                 = m[:γ_Q]
 
     ## Labor income growth
@@ -53,12 +53,13 @@ function measurement{T<:AbstractFloat}(m::DuncanNolanRBC{T},
 
     # Measurement error
     EE[obs[:obs_gdp], endo[:y_t]]      = m[:e_y]^2
-    EE[obs[:obs_con], endo[:c_t]]      = m[:e_c]^2
+    EE[obs[:obs_con], endo[:ctot_t]]   = m[:e_ctot]^2
     EE[obs[:obs_wagsal], endo[:nw_t]]  = m[:e_nw]^2
 
     # Variance of innovations
     QQ[exo[:z_sh], exo[:z_sh]]   = (m[:σ_z])^2
     QQ[exo[:g_sh], exo[:g_sh]]   = (m[:σ_g])^2
+    QQ[exo[:xi_sh],exo[:xi_sh]]  = (m[:σ_xi])^2
 
     return Measurement(ZZ, DD, QQ, EE)
 end
