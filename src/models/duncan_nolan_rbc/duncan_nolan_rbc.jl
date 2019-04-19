@@ -137,7 +137,7 @@ function init_model_indices!(m::DuncanNolanRBC)
 
     # Exogenous shocks
     exogenous_shocks = collect([
-        :z_sh, :g_sh, :xi_sh])
+        :z_sh, :g_sh])
 
     # Expectations shocks
     expected_shocks = collect([
@@ -351,5 +351,5 @@ function shock_groupings(m::DuncanNolanRBC)
     tfp = ShockGroup("z", [:z_sh], RGB(1.0, 0.55, 0.0)) # darkorange
     det = ShockGroup("dt", [:dettrend], :gray40)
 
-    return [gov, tfp, unc, det]
+    return [gov, tfp, det]
 end

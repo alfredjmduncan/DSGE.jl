@@ -1,6 +1,6 @@
 function init_pseudo_observable_mappings!(m::DuncanNolanRBC)
 
-    pseudo_names = [:y_t, :z_t, :nw_t]
+    pseudo_names = [:y_t, :c_t, :nw_t]
 
     # Create PseudoObservable objects
     pseudo = OrderedDict{Symbol,PseudoObservable}()
@@ -12,8 +12,8 @@ function init_pseudo_observable_mappings!(m::DuncanNolanRBC)
     pseudo[:y_t].name = "Output Growth"
     pseudo[:y_t].longname = "Output Growth Per Capita"
 
-    pseudo[:z_t].name     = "z_t"
-    pseudo[:z_t].longname = "z_t"
+    pseudo[:c_t].name     = "Consumption Growth"
+    pseudo[:c_t].longname = "Consumption Growth per capita"
 
     pseudo[:nw_t].name = "Labor income"
     pseudo[:nw_t].longname = "Real growth in wages and salaries"
