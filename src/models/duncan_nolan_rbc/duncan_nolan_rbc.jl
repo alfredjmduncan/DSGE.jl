@@ -250,6 +250,10 @@ function init_parameters!(m::DuncanNolanRBC)
                    description="gamma: The inverse of the intemporal elasticity of substitution.",
                    tex_label="\\gamma")
 
+    m <= parameter(:psi, 2.0, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+                   description="psi: The inverse of the Frisch elasticity of labor supply.",
+                   tex_label="\\psi")
+
     m <= parameter(:delta, 0.025, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(0.01, 0.04), fixed=false,
                    description="delta: Depreciation rate.",
                    tex_label="\\delta")
