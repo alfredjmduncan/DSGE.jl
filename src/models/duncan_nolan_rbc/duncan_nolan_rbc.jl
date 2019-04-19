@@ -243,31 +243,31 @@ those).
 function init_parameters!(m::DuncanNolanRBC)
     # Initialize parameters
 
-    m <= parameter(:alpha, 0.25, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
+    m <= parameter(:alpha, 0.25,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
                    description="alpha: The capital share of output.",
                    tex_label="\\alpha")
 
-    m <= parameter(:gamma, 1.9937, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+    m <= parameter(:gamma, 1.9937,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="gamma: The inverse of the intemporal elasticity of substitution.",
                    tex_label="\\gamma")
 
-    m <= parameter(:psi, 2.0, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+    m <= parameter(:psi, 2.0,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="psi: The inverse of the Frisch elasticity of labor supply.",
                    tex_label="\\psi")
 
-    m <= parameter(:delta, 0.025, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(0.01, 0.04), fixed=false,
+    m <= parameter(:delta, 0.025,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(0.01, 0.04), fixed=false,
                    description="delta: Depreciation rate.",
                    tex_label="\\delta")
 
-    m <= parameter(:beta, 0.995, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(.99, 0.997), fixed=false,
+    m <= parameter(:beta, 0.995,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(.99, 0.997), fixed=false,
                    description="beta: Discount factor.",
                    tex_label="\\beta")
 
-    m <= parameter(:CoY, 0.64, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.64, 0.02), fixed=false,
+    m <= parameter(:CoY, 0.64,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.64, 0.02), fixed=false,
                    description="C over Y: Consumption share of output.",
                    tex_label="CoY")
 
-    m <= parameter(:IoY, 0.17, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.17, 0.02), fixed=false,
+    m <= parameter(:IoY, 0.17,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.17, 0.02), fixed=false,
                    description="I over Y: Investment share of output.",
                    tex_label="IoY")
 
@@ -283,10 +283,6 @@ function init_parameters!(m::DuncanNolanRBC)
     m <= parameter(:ρ_z, 0.9579, (1e-20, 1-1e-7), (1e-20, 1-1e-7), DSGE.SquareRoot(), Uniform(0,1), fixed=false,
                    description="ρ_z: AR(1) coefficient on shocks to the technology growth rate.",
                    tex_label="\\rho_z")
-
-    m <= parameter(:ρ_xi, 0.5, (1e-20, 1-1e-7), (1e-20, 1-1e-7), DSGE.SquareRoot(), Uniform(0,1), fixed=false,
-                   description="ρ_xi: AR(1) coefficient on shocks to firm level uncertainty.",
-                   tex_label="\\rho_xi")
 
     m <= parameter(:σ_g, 1.4594, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), DSGE.RootInverseGamma(4, 1.), fixed=false,
                    description="σ_g: Standard deviation of shocks to the government spending process.",
