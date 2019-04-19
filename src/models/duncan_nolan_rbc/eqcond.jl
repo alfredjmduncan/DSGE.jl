@@ -103,7 +103,7 @@ function eqcond(m::DuncanNolanRBC)
 
     Γ0[eq[:eq_fperp], endo[:re_t]]   = -1
     Γ0[eq[:eq_fperp], endo[:r_t]]    =  1
-    Γ0[eq[:eq_fperp], endo[:l_t]]    =  m[:erp]
+    Γ0[eq[:eq_fperp], endo[:lev_t]]    =  m[:erp]
     Γ0[eq[:eq_fperp], endo[:tau_t]]  =  m[:L]
 
 
