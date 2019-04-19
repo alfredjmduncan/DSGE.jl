@@ -124,7 +124,7 @@ module DSGE
         init_parameters!, steadystate!, init_observable_mappings!, init_pseudo_observable_mappings!,
         Model990, Model1002, Model1010, SmetsWouters, AnSchorfheide,
         DuncanNolanNK,
-        DuncanNolanRBC, 
+        DuncanNolanRBC,
         eqcond, measurement, pseudo_measurement,
         shock_groupings,
 
@@ -261,4 +261,13 @@ module DSGE
     include("models/duncan_nolan_nk/pseudo_observables.jl")
     include("models/duncan_nolan_nk/pseudo_measurement.jl")
     include("models/duncan_nolan_nk/augment_states.jl")
+
+    include("models/duncan_nolan_rbc/duncan_nolan_rbc.jl")
+    include("models/duncan_nolan_rbc/subspecs.jl")
+    include("models/duncan_nolan_rbc/eqcond.jl")
+    include("models/duncan_nolan_rbc/observables.jl")
+    include("models/duncan_nolan_rbc/measurement.jl")
+    include("models/duncan_nolan_rbc/pseudo_observables.jl")
+    include("models/duncan_nolan_rbc/pseudo_measurement.jl")
+    include("models/duncan_nolan_rbc/augment_states.jl")
 end
