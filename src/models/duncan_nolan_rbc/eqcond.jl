@@ -48,110 +48,118 @@ function eqcond(m::DuncanNolanRBC)
     Γ0[eq[:eq_prod], endo[:n_t]] =  (1-m[:alpha])
     Γ1[eq[:eq_prod], endo[:k_t]] =  m[:alpha]
 
-    ### 3a. Consumption aggregator
+    ### 4. Consumption aggregator
 
     Γ0[eq[:eq_con], endo[:ctot_t]] =  -1
     Γ0[eq[:eq_con], endo[:c_t]]    =  m[:CoCtot]
     Γ0[eq[:eq_con], endo[:ce_t]]   = (1 - m[:CoCtot])
 
-    ### 3. Aggregate demand
+    ### 5. Aggregate demand
 
     Γ0[eq[:eq_ad], endo[:y_t]]    = -1
     Γ0[eq[:eq_ad], endo[:ctot_t]] =  m[:CoY]
     Γ0[eq[:eq_ad], endo[:i_t]]    =  m[:IoY]
     Γ0[eq[:eq_ad], endo[:g_t]]    = (1 - m[:CoY] - m[:IoY])
 
-    ### 4. Capital Accumulation
+    ### 6. Capital Accumulation
 
     Γ0[eq[:eq_cap], endo[:k_t]]    = -1
     Γ1[eq[:eq_cap], endo[:k_t]]    = (1 - m[:delta])
     Γ1[eq[:eq_cap], endo[:i_t]]    =  m[:delta]
 
-    ### 4. Entrepreneurs: Consumption savings
+    ### 7. Entrepreneurs: Consumption savings
 
     Γ0[eq[:eq_entcon], endo[:ce_t]]      = -1
     Γ0[eq[:eq_entcon], endo[:omegae_t]]  =  1
     Γ0[eq[:eq_entcon], endo[:re_t]]      =  1
 
-    ### 5. Entrepreneurs: Leverage
+    ### 8. Entrepreneurs: Leverage
 
     Γ0[eq[:eq_entlev], endo[:lev_t]]     = -1
     Γ0[eq[:eq_entlev], endo[:y_t]]       =  1
     Γ0[eq[:eq_entlev], endo[:omegae_t]]  = -1
     Γ0[eq[:eq_entlev], endo[:r_t]]       = -1
 
-    ### 6. Entrepreneurs: Wedge
+    ### 9. Entrepreneurs: Wedge
 
     Γ0[eq[:eq_entweg], endo[:lev_t]] = -1
     Γ0[eq[:eq_entweg], endo[:tau_t]] =  m[:L]
     Γ0[eq[:eq_entweg], endo[:xi_t]]  = -(1+m[:erp])
 
-    ### 7. Entrepreneurs: Wealth evolution
+    ### 10. Entrepreneurs: Wealth evolution
 
     Γ0[eq[:eq_entwel], endo[:omegae_t]] = -1
     Γ1[eq[:eq_entwel], endo[:re_t]]     = -1
     Γ1[eq[:eq_entwel], endo[:omegae_t]] = -1
 
-    ### 8. Factor Prices: Capital
+    ### 11. Factor Prices: Capital
 
     Γ0[eq[:eq_fpcap], endo[:r_t]]   = -1
     Γ0[eq[:eq_fpcap], endo[:y_t]]   =  (1-m[:beta]*(1-m[:delta]))
     Γ1[eq[:eq_fpcap], endo[:k_t]]   = -(1-m[:beta]*(1-m[:delta]))
     Γ0[eq[:eq_fpcap], endo[:tau_t]] = -(1-m[:beta]*(1-m[:delta]))
 
-    ### 9. Factor Prices: Labor
+    ### 12. Factor Prices: ERP
+
+    Γ0[eq[:eq_fperp], endo[:re_t]]   = -1
+    Γ0[eq[:eq_fperp], endo[:r_t]]    =  1
+    Γ0[eq[:eq_fperp], endo[:l_t]]    =  m[:erp]
+    Γ0[eq[:eq_fperp], endo[:tau_t]]  =  m[:L]
+
+
+    ### 13. Factor Prices: Labor
 
     Γ0[eq[:eq_fplab], endo[:w_t]]   = -1
     Γ0[eq[:eq_fplab], endo[:y_t]]   =  1
     Γ0[eq[:eq_fplab], endo[:n_t]]   = -1
     Γ0[eq[:eq_fplab], endo[:tau_t]] = -1
 
-    ### 13. Wages and salaries
+    ### 14. Wages and salaries
 
     Γ0[eq[:eq_nw], endo[:nw_t]] = -1
     Γ0[eq[:eq_nw], endo[:w_t]]  =  1
     Γ0[eq[:eq_nw], endo[:n_t]]  =  1
 
-    ### 13. Wages and salaries lag
+    ### 15. Wages and salaries lag
 
     Γ0[eq[:eq_nw_t1], endo[:nw_t1]] = 1
     Γ1[eq[:eq_nw_t1], endo[:nw_t]]  = 1
 
-    ### 13. Output lag
+    ### 16. Output lag
 
     Γ0[eq[:eq_y_t1], endo[:y_t1]] = 1
     Γ1[eq[:eq_y_t1], endo[:y_t]]  = 1
 
-    ### 13. Con lag
+    ### 17. Con lag
 
     Γ0[eq[:eq_ctot_t1], endo[:ctot_t1]] = 1
     Γ1[eq[:eq_ctot_t1], endo[:ctot_t]]  = 1
 
-    ### 14. Government spending
+    ### 18. Government spending
 
     Γ0[eq[:eq_g], endo[:g_t]] = 1
     Γ1[eq[:eq_g], endo[:g_t]] = m[:ρ_g]
     Ψ[eq[:eq_g],  exo[:g_sh]] = 1
 
-    ### 15. Technology
+    ### 19. Technology
 
     Γ0[eq[:eq_z], endo[:z_t]] = 1
     Γ1[eq[:eq_z], endo[:z_t]] = m[:ρ_z]
     Ψ[eq[:eq_z],  exo[:z_sh]] = 1
 
-    ### 15. Uncertainty
+    ### 20. Uncertainty
 
     Γ0[eq[:eq_xi], endo[:xi_t]] = 1
     Γ1[eq[:eq_xi], endo[:xi_t]] = m[:ρ_xi]
     Ψ[eq[:eq_xi],  exo[:xi_sh]] = 1
 
-    ### 16. Expected consumption
+    ### 21. Expected consumption
 
     Γ0[eq[:eq_Ec], endo[:c_t]]   = 1
     Γ1[eq[:eq_Ec], endo[:Ec_t1]] = 1
     Π[eq[:eq_Ec],  ex[:Ec_sh]]   = 1
 
-    ### 17. Expected real interest rate
+    ### 22. Expected real interest rate
 
     Γ0[eq[:eq_Er], endo[:r_t]]   = 1
     Γ1[eq[:eq_Er], endo[:Er_t1]] = 1

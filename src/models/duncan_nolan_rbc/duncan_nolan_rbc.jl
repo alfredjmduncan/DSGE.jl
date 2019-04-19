@@ -119,15 +119,28 @@ Initializes indices for all of `m`'s states, shocks, and equilibrium conditions.
 function init_model_indices!(m::DuncanNolanRBC)
     # Endogenous states
     endogenous_states = collect([
-        :y_t,   :ctot_t,   :nw_t,   # Start with observables in the same order
-        :y_t1,  :ctot_t1,  :nw_t1,
-        :lev_t, :tau_t, :omegae_t,
-        :n_t,   :w_t,
-        :r_t,   :re_t,
-        :c_t,   :ce_t,
-        :k_t,   :i_t,
-        :g_t,   :z_t,   :xi_t,
-        :Ec_t1, :Er_t1])
+        :y_t,
+        :ctot_t,
+        :nw_t,   # Start with observables in the same order
+        :y_t1,
+        :ctot_t1,
+        :nw_t1,
+        :lev_t,
+        :tau_t,
+        :omegae_t,
+        :n_t,
+        :w_t,
+        :r_t,
+        :re_t,
+        :c_t,
+        :ce_t,
+        :k_t,
+        :i_t,
+        :g_t,
+        :z_t,
+        :xi_t,
+        :Ec_t1,
+        :Er_t1])
 
     # Exogenous shocks
     exogenous_shocks = collect([
@@ -150,11 +163,12 @@ function init_model_indices!(m::DuncanNolanRBC)
         :eq_entweg,
         :eq_entwel,
         :eq_fpcap,
+        :eq_fperp,        
         :eq_fplab,
         :eq_nw,
         :eq_nw_t1,
         :eq_y_t1,
-        :eq_ctot_t1,        
+        :eq_ctot_t1,
         :eq_g,
         :eq_z,
         :eq_xi,
