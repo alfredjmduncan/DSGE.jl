@@ -126,7 +126,7 @@ module DSGE
         DuncanNolanNK,
         DuncanNolanRBC,
         DuncanNolanFlexPrice,
-        DuncanNolanEndowment,                
+        DuncanNolanEndowment,
         eqcond, measurement, pseudo_measurement,
         shock_groupings,
 
@@ -272,4 +272,22 @@ module DSGE
     include("models/duncan_nolan_rbc/pseudo_observables.jl")
     include("models/duncan_nolan_rbc/pseudo_measurement.jl")
     include("models/duncan_nolan_rbc/augment_states.jl")
+
+    include("models/duncan_nolan_flexprice/duncan_nolan_flexprice.jl")
+    include("models/duncan_nolan_flexprice/subspecs.jl")
+    include("models/duncan_nolan_flexprice/eqcond.jl")
+    include("models/duncan_nolan_flexprice/observables.jl")
+    include("models/duncan_nolan_flexprice/measurement.jl")
+    include("models/duncan_nolan_flexprice/pseudo_observables.jl")
+    include("models/duncan_nolan_flexprice/pseudo_measurement.jl")
+    include("models/duncan_nolan_flexprice/augment_states.jl")
+
+    include("models/duncan_nolan_endowment/duncan_nolan_endowment.jl")
+    include("models/duncan_nolan_endowment/subspecs.jl")
+    include("models/duncan_nolan_endowment/eqcond.jl")
+    include("models/duncan_nolan_endowment/observables.jl")
+    include("models/duncan_nolan_endowment/measurement.jl")
+    include("models/duncan_nolan_endowment/pseudo_observables.jl")
+    include("models/duncan_nolan_endowment/pseudo_measurement.jl")
+    include("models/duncan_nolan_endowment/augment_states.jl")
 end
