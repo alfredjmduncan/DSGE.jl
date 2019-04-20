@@ -43,9 +43,9 @@ function eqcond(m::DuncanNolanRBC)
 
     ### 3. Production
 
-    Γ0[eq[:eq_prod], endo[:y_t]] = -1
-    Γ0[eq[:eq_prod], endo[:z_t]] =  1
-    Γ0[eq[:eq_prod], endo[:n_t]] =  (1-m[:alpha])
+    Γ0[eq[:eq_prod], endo[:y_t]] =  1
+    Γ0[eq[:eq_prod], endo[:z_t]] = -1
+    Γ0[eq[:eq_prod], endo[:n_t]] = -(1-m[:alpha])
     Γ1[eq[:eq_prod], endo[:k_t]] =  m[:alpha]
 
     ### 4. Aggregate demand
@@ -57,14 +57,14 @@ function eqcond(m::DuncanNolanRBC)
 
     ### 6. Capital Accumulation
 
-    Γ0[eq[:eq_cap], endo[:k_t]]    = -1
+    Γ0[eq[:eq_cap], endo[:k_t]]    = 1
     Γ1[eq[:eq_cap], endo[:k_t]]    = (1 - m[:delta])
-    Γ0[eq[:eq_cap], endo[:i_t]]    =  m[:delta]
+    Γ0[eq[:eq_cap], endo[:i_t]]    = -m[:delta]
 
     ### 11. Factor Prices: Capital
 
-    Γ0[eq[:eq_fpcap], endo[:r_t]]   = -1/(1-m[:beta]*(1-m[:delta]))
-    Γ0[eq[:eq_fpcap], endo[:y_t]]   =  1
+    Γ0[eq[:eq_fpcap], endo[:r_t]]   =  1/(1-m[:beta]*(1-m[:delta]))
+    Γ0[eq[:eq_fpcap], endo[:y_t]]   = -1
     Γ1[eq[:eq_fpcap], endo[:k_t]]   = -1
 
     ### 13. Factor Prices: Labor

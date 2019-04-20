@@ -125,6 +125,8 @@ module DSGE
         Model990, Model1002, Model1010, SmetsWouters, AnSchorfheide,
         DuncanNolanNK,
         DuncanNolanRBC,
+        DuncanNolanFlexPrice,
+        DuncanNolanEndowment,                
         eqcond, measurement, pseudo_measurement,
         shock_groupings,
 

@@ -1,4 +1,4 @@
-function init_pseudo_observable_mappings!(m::DuncanNolanFlexPrice)
+function init_pseudo_observable_mappings!(m::DuncanNolanEndowment)
 
     pseudo_names = [:y_t, :ctot_t, :nw_t]
 

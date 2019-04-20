@@ -15,7 +15,7 @@ specified in their proper positions.
 * `Ψ`  (`n_states` x `n_shocks_exogenous`) holds coefficients of iid shocks.
 * `Π`  (`n_states` x `n_states_expectational`) holds coefficients of expectational states.
 """
-function eqcond(m::DuncanNolanFlexPrice)
+function eqcond(m::DuncanNolanEndowment)
     endo = m.endogenous_states
     exo  = m.exogenous_shocks
     ex   = m.expected_shocks
@@ -35,18 +35,10 @@ function eqcond(m::DuncanNolanFlexPrice)
     Γ0[eq[:eq_euler], endo[:Ec_t1]] =  1
     Γ0[eq[:eq_euler], endo[:Er_t1]] = -1/m[:gamma]
 
-    ### 2. Labour supply
-
-    Γ0[eq[:eq_labsup], endo[:n_t]] = -m[:psi]
-    Γ0[eq[:eq_labsup], endo[:w_t]] =  1
-    Γ0[eq[:eq_labsup], endo[:c_t]] = -m[:gamma]
-
     ### 3. Production
 
-    Γ0[eq[:eq_prod], endo[:y_t]] =  1
-    Γ0[eq[:eq_prod], endo[:z_t]] = -1
-    Γ0[eq[:eq_prod], endo[:n_t]] = -(1-m[:alpha])
-    Γ1[eq[:eq_prod], endo[:k_t]] =  m[:alpha]
+    Γ0[eq[:eq_prod], endo[:y_t]] = -1
+    Γ0[eq[:eq_prod], endo[:z_t]] =  1
 
     ### 4. Consumption aggregator
 
@@ -57,15 +49,7 @@ function eqcond(m::DuncanNolanFlexPrice)
     ### 5. Aggregate demand
 
     Γ0[eq[:eq_ad], endo[:y_t]]    = -1
-    Γ0[eq[:eq_ad], endo[:ctot_t]] =  m[:CoY]
-    Γ0[eq[:eq_ad], endo[:i_t]]    =  m[:IoY]
-    Γ0[eq[:eq_ad], endo[:g_t]]    = (1 - m[:CoY] - m[:IoY])
-
-    ### 6. Capital Accumulation
-
-    Γ0[eq[:eq_cap], endo[:k_t]]    = 1
-    Γ1[eq[:eq_cap], endo[:k_t]]    = (1 - m[:delta])
-    Γ0[eq[:eq_cap], endo[:i_t]]    = -m[:delta]
+    Γ0[eq[:eq_ad], endo[:ctot_t]] =  1
 
     ### 7. Entrepreneurs: Consumption savings
 
@@ -92,38 +76,12 @@ function eqcond(m::DuncanNolanFlexPrice)
     Γ0[eq[:eq_entwel], endo[:re_t]]     = -1
     Γ1[eq[:eq_entwel], endo[:omegae_t]] =  1
 
-    ### 11. Factor Prices: Capital
-
-    Γ0[eq[:eq_fpcap], endo[:r_t]]   = -1/(1-m[:beta]*(1-m[:delta]))
-    Γ0[eq[:eq_fpcap], endo[:y_t]]   =  1
-    Γ1[eq[:eq_fpcap], endo[:k_t]]   =  1
-    Γ0[eq[:eq_fpcap], endo[:tau_t]] = -1
-
     ### 12. Factor Prices: ERP
 
     Γ0[eq[:eq_fperp], endo[:re_t]]   = -1
     Γ0[eq[:eq_fperp], endo[:r_t]]    =  1
     Γ0[eq[:eq_fperp], endo[:lev_t]]  =  m[:erp]
     Γ0[eq[:eq_fperp], endo[:tau_t]]  =  m[:L]
-
-
-    ### 13. Factor Prices: Labor
-
-    Γ0[eq[:eq_fplab], endo[:w_t]]   = -1
-    Γ0[eq[:eq_fplab], endo[:y_t]]   =  1
-    Γ0[eq[:eq_fplab], endo[:n_t]]   = -1
-    Γ0[eq[:eq_fplab], endo[:tau_t]] = -1
-
-    ### 14. Wages and salaries
-
-    Γ0[eq[:eq_nw], endo[:nw_t]] = -1
-    Γ0[eq[:eq_nw], endo[:w_t]]  =  1
-    Γ0[eq[:eq_nw], endo[:n_t]]  =  1
-
-    ### 15. Wages and salaries lag
-
-    Γ0[eq[:eq_nw_t1], endo[:nw_t1]] = 1
-    Γ1[eq[:eq_nw_t1], endo[:nw_t]]  = 1
 
     ### 16. Output lag
 
@@ -134,12 +92,6 @@ function eqcond(m::DuncanNolanFlexPrice)
 
     Γ0[eq[:eq_ctot_t1], endo[:ctot_t1]] = 1
     Γ1[eq[:eq_ctot_t1], endo[:ctot_t]]  = 1
-
-    ### 18. Government spending
-
-    Γ0[eq[:eq_g], endo[:g_t]] = 1
-    Γ1[eq[:eq_g], endo[:g_t]] = m[:ρ_g]
-    Ψ[eq[:eq_g],  exo[:g_sh]] = 1
 
     ### 19. Technology
 

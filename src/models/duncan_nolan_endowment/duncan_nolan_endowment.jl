@@ -1,9 +1,9 @@
 """
 ```
-DuncanNolanRBC{T} <: AbstractModel{T}
+DuncanNolanEndowment{T} <: AbstractModel{T}
 ```
 
-The `DuncanNolanRBC` type defines the structure of a simple RBC model
+The `DuncanNolanEndowment` type defines the structure of a simple RBC model
 used in Duncan Nolan 2019.
 
 ### Fields
@@ -49,7 +49,7 @@ equilibrium conditions.
 
 #### Model Specifications and Settings
 
-* `spec::String`: The model specification identifier, \"duncan_nolan_rbc\", cached
+* `spec::String`: The model specification identifier, \"duncan_nolan_endowment\", cached
   here for filepath computation.
 
 * `subspec::String`: The model subspecification number, indicating that some
@@ -80,7 +80,7 @@ equilibrium conditions.
   dictionary that stores names and transformations to/from model units. See
   `PseudoObservable` for further details.
 """
-type DuncanNolanRBC{T} <: AbstractModel{T}
+type DuncanNolanEndowment{T} <: AbstractModel{T}
     parameters::ParameterVector{T}                         # vector of all time-invariant model parameters
     steady_state::ParameterVector{T}                       # model steady-state values
     keys::OrderedDict{Symbol,Int}                          # human-readable names for all the model
@@ -105,39 +105,46 @@ type DuncanNolanRBC{T} <: AbstractModel{T}
     pseudo_observable_mappings::OrderedDict{Symbol, PseudoObservable}
 end
 
-description(m::DuncanNolanRBC) = "Julia implementation of RBC model DuncanNolanRBC, $(m.subspec)"
+description(m::DuncanNolanEndowment) = "Julia implementation of RBC model DuncanNolanEndowment, $(m.subspec)"
 
 """
-`init_model_indices!(m::DuncanNolanRBC)`
+`init_model_indices!(m::DuncanNolanEndowment)`
 
 Arguments:
-`m:: DuncanNolanRBC`: a model object
+`m:: DuncanNolanEndowment`: a model object
 
 Description:
 Initializes indices for all of `m`'s states, shocks, and equilibrium conditions.
 """
-function init_model_indices!(m::DuncanNolanRBC)
+function init_model_indices!(m::DuncanNolanEndowment)
     # Endogenous states
     endogenous_states = collect([
         :y_t,
-        :c_t,
+        :ctot_t,
         :nw_t,   # Start with observables in the same order
         :y_t1,
-        :c_t1,
+        :ctot_t1,
         :nw_t1,
+        :lev_t,
+        :tau_t,
+        :omegae_t,
         :n_t,
         :w_t,
         :r_t,
+        :re_t,
+        :c_t,
+        :ce_t,
         :k_t,
         :i_t,
         :g_t,
         :z_t,
+        :xi_t,
         :Ec_t1,
         :Er_t1])
 
     # Exogenous shocks
     exogenous_shocks = collect([
-        :z_sh, :g_sh])
+        :z_sh, :g_sh, :xi_sh])
 
     # Expectations shocks
     expected_shocks = collect([
@@ -148,16 +155,23 @@ function init_model_indices!(m::DuncanNolanRBC)
         :eq_euler,
         :eq_labsup,
         :eq_prod,
+        :eq_con,
         :eq_ad,
         :eq_cap,
+        :eq_entcon,
+        :eq_entlev,
+        :eq_entweg,
+        :eq_entwel,
         :eq_fpcap,
+        :eq_fperp,
         :eq_fplab,
         :eq_nw,
         :eq_nw_t1,
         :eq_y_t1,
-        :eq_c_t1,
+        :eq_ctot_t1,
         :eq_g,
         :eq_z,
+        :eq_xi,
         :eq_Ec,
         :eq_Er])
 
@@ -182,7 +196,7 @@ function init_model_indices!(m::DuncanNolanRBC)
 end
 
 
-function DuncanNolanRBC(subspec::String="ss0";
+function DuncanNolanEndowment(subspec::String="ss0";
                        custom_settings::Dict{Symbol, Setting} = Dict{Symbol, Setting}(),
                        testing = false)
 
@@ -194,7 +208,7 @@ function DuncanNolanRBC(subspec::String="ss0";
     rng                = MersenneTwister(0)
 
     # initialize empty model
-    m = DuncanNolanRBC{Float64}(
+    m = DuncanNolanEndowment{Float64}(
             # model parameters and steady state values
             Vector{AbstractParameter{Float64}}(), Vector{Float64}(), OrderedDict{Symbol,Int}(),
 
@@ -211,7 +225,7 @@ function DuncanNolanRBC(subspec::String="ss0";
             OrderedDict{Symbol,PseudoObservable}())
 
     # Set settings
-    settings_duncan_nolan_rbc!(m)
+    settings_duncan_nolan_endowment!(m)
     default_test_settings!(m)
     for custom_setting in values(custom_settings)
         m <= custom_setting
@@ -233,41 +247,53 @@ end
 
 """
 ```
-init_parameters!(m::DuncanNolanRBC)
+init_parameters!(m::DuncanNolanEndowment)
 ```
 
 Initializes the model's parameters, as well as empty values for the steady-state
 parameters (in preparation for `steadystate!(m)` being called to initialize
 those).
 """
-function init_parameters!(m::DuncanNolanRBC)
+function init_parameters!(m::DuncanNolanEndowment)
     # Initialize parameters
 
-    m <= parameter(:alpha, 0.25,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
+    m <= parameter(:alpha, 0.25, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
                    description="alpha: The capital share of output.",
                    tex_label="\\alpha")
 
-    m <= parameter(:gamma, 1.9937,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+    m <= parameter(:gamma, 1.9937, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="gamma: The inverse of the intemporal elasticity of substitution.",
                    tex_label="\\gamma")
 
-    m <= parameter(:psi, 2.0,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+    m <= parameter(:psi, 2.0, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="psi: The inverse of the Frisch elasticity of labor supply.",
                    tex_label="\\psi")
 
-    m <= parameter(:delta, 0.025,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(0.01, 0.04), fixed=false,
+    m <= parameter(:delta, 0.025, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(0.01, 0.04), fixed=false,
                    description="delta: Depreciation rate.",
                    tex_label="\\delta")
 
-    m <= parameter(:beta, 0.995,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(.99, 0.997), fixed=false,
+    m <= parameter(:beta, 0.995, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(.99, 0.997), fixed=false,
                    description="beta: Discount factor.",
                    tex_label="\\beta")
 
-    m <= parameter(:CoY, 0.64,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.64, 0.02), fixed=false,
+    m <= parameter(:L, 0.3, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.30, 0.05), fixed=false,
+                   description="L: Steady state leverage (GVA over net wealth).",
+                   tex_label="\\bar{l}")
+
+    m <= parameter(:erp, 0.015, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.015, 0.005), fixed=false,
+                   description="ERP: Equity risk premium.",
+                   tex_label="erp")
+
+    m <= parameter(:CoCtot, 0.8, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(.7, 0.95), fixed=false,
+                   description="C over Ctot: Household share of consumption.",
+                   tex_label="CoCtot")
+
+    m <= parameter(:CoY, 0.64, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.64, 0.02), fixed=false,
                    description="C over Y: Consumption share of output.",
                    tex_label="CoY")
 
-    m <= parameter(:IoY, 0.17,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.17, 0.02), fixed=false,
+    m <= parameter(:IoY, 0.17, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.17, 0.02), fixed=false,
                    description="I over Y: Investment share of output.",
                    tex_label="IoY")
 
@@ -284,6 +310,10 @@ function init_parameters!(m::DuncanNolanRBC)
                    description="ρ_z: AR(1) coefficient on shocks to the technology growth rate.",
                    tex_label="\\rho_z")
 
+    m <= parameter(:ρ_xi, 0.5, (1e-20, 1-1e-7), (1e-20, 1-1e-7), DSGE.SquareRoot(), Uniform(0,1), fixed=false,
+                   description="ρ_xi: AR(1) coefficient on shocks to firm level uncertainty.",
+                   tex_label="\\rho_xi")
+
     m <= parameter(:σ_g, 1.4594, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), DSGE.RootInverseGamma(4, 1.), fixed=false,
                    description="σ_g: Standard deviation of shocks to the government spending process.",
                    tex_label="\\sigma_g")
@@ -292,11 +322,15 @@ function init_parameters!(m::DuncanNolanRBC)
                    description="σ_z: Standard deviation of shocks to the technology growth rate process.",
                    tex_label="\\sigma_z")
 
+    m <= parameter(:σ_xi, 0.9247, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), DSGE.RootInverseGamma(4, 0.5), fixed=false,
+                   description="σ_xi: Standard deviation of shocks to the technology growth rate process.",
+                   tex_label="\\sigma_xi")
+
     m <= parameter(:e_y, 0.20*0.579923, fixed=true,
                    description="e_y: Measurement error on GDP growth.",
                    tex_label="e_y")
 
-    m <= parameter(:e_c, 0.20*0.579923, fixed=true,
+    m <= parameter(:e_ctot, 0.20*0.579923, fixed=true,
                    description="e_c: Measurement error on consumption growth.",
                    tex_label="e_c")
 
@@ -307,24 +341,24 @@ end
 
 """
 ```
-steadystate!(m::DuncanNolanRBC)
+steadystate!(m::DuncanNolanEndowment)
 ```
 
 Calculates the model's steady-state values. `steadystate!(m)` must be called whenever
 the parameters of `m` are updated.
 """
-function steadystate!(m::DuncanNolanRBC)
+function steadystate!(m::DuncanNolanEndowment)
     return m
 end
 
-function settings_duncan_nolan_rbc!(m::DuncanNolanRBC)
+function settings_duncan_nolan_endowment!(m::DuncanNolanEndowment)
     default_settings!(m)
 
     # Data
     m <= Setting(:data_id, 0, "Dataset identifier")
-    m <= Setting(:cond_full_names, [:obs_gdp, :obs_con],
+    m <= Setting(:cond_full_names, [:obs_gdp, :obs_nominalrate],
         "Observables used in conditional forecasts")
-    m <= Setting(:cond_semi_names, [:obs_gdp],
+    m <= Setting(:cond_semi_names, [:obs_nominalrate],
         "Observables used in semiconditional forecasts")
 
     # Metropolis-Hastings
@@ -342,10 +376,11 @@ function settings_duncan_nolan_rbc!(m::DuncanNolanRBC)
         "Value of the zero lower bound in forecast periods, if we choose to enforce it")
 end
 
-function shock_groupings(m::DuncanNolanRBC)
+function shock_groupings(m::DuncanNolanEndowment)
     gov = ShockGroup("g", [:g_sh], RGB(0.70, 0.13, 0.13)) # firebrick
     tfp = ShockGroup("z", [:z_sh], RGB(1.0, 0.55, 0.0)) # darkorange
+    unc = ShockGroup("xi", [:xi_sh], RGB(1.0, 0.55, 0.0)) # darkorange
     det = ShockGroup("dt", [:dettrend], :gray40)
 
-    return [gov, tfp, det]
+    return [gov, tfp, unc, det]
 end
