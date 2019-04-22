@@ -1,9 +1,9 @@
 """
 ```
-DuncanNolanFlexPrice{T} <: AbstractModel{T}
+DNFPCheckOpen{T} <: AbstractModel{T}
 ```
 
-The `DuncanNolanFlexPrice` type defines the structure of a simple RBC model
+The `DNFPCheckOpen` type defines the structure of a simple RBC model
 used in Duncan Nolan 2019.
 
 ### Fields
@@ -49,7 +49,7 @@ equilibrium conditions.
 
 #### Model Specifications and Settings
 
-* `spec::String`: The model specification identifier, \"duncan_nolan_flexprice\", cached
+* `spec::String`: The model specification identifier, \"dn_fp_checkopen\", cached
   here for filepath computation.
 
 * `subspec::String`: The model subspecification number, indicating that some
@@ -80,7 +80,7 @@ equilibrium conditions.
   dictionary that stores names and transformations to/from model units. See
   `PseudoObservable` for further details.
 """
-type DuncanNolanFlexPrice{T} <: AbstractModel{T}
+type DNFPCheckOpen{T} <: AbstractModel{T}
     parameters::ParameterVector{T}                         # vector of all time-invariant model parameters
     steady_state::ParameterVector{T}                       # model steady-state values
     keys::OrderedDict{Symbol,Int}                          # human-readable names for all the model
@@ -105,18 +105,18 @@ type DuncanNolanFlexPrice{T} <: AbstractModel{T}
     pseudo_observable_mappings::OrderedDict{Symbol, PseudoObservable}
 end
 
-description(m::DuncanNolanFlexPrice) = "Julia implementation of RBC model DuncanNolanFlexPrice, $(m.subspec)"
+description(m::DNFPCheckOpen) = "Julia implementation of RBC model DNFPCheckOpen, $(m.subspec)"
 
 """
-`init_model_indices!(m::DuncanNolanFlexPrice)`
+`init_model_indices!(m::DNFPCheckOpen)`
 
 Arguments:
-`m:: DuncanNolanFlexPrice`: a model object
+`m:: DNFPCheckOpen`: a model object
 
 Description:
 Initializes indices for all of `m`'s states, shocks, and equilibrium conditions.
 """
-function init_model_indices!(m::DuncanNolanFlexPrice)
+function init_model_indices!(m::DNFPCheckOpen)
     # Endogenous states
     endogenous_states = collect([
         :y_t,
@@ -196,7 +196,7 @@ function init_model_indices!(m::DuncanNolanFlexPrice)
 end
 
 
-function DuncanNolanFlexPrice(subspec::String="ss0";
+function DNFPCheckOpen(subspec::String="ss0";
                        custom_settings::Dict{Symbol, Setting} = Dict{Symbol, Setting}(),
                        testing = false)
 
@@ -208,7 +208,7 @@ function DuncanNolanFlexPrice(subspec::String="ss0";
     rng                = MersenneTwister(0)
 
     # initialize empty model
-    m = DuncanNolanFlexPrice{Float64}(
+    m = DNFPCheckOpen{Float64}(
             # model parameters and steady state values
             Vector{AbstractParameter{Float64}}(), Vector{Float64}(), OrderedDict{Symbol,Int}(),
 
@@ -225,7 +225,7 @@ function DuncanNolanFlexPrice(subspec::String="ss0";
             OrderedDict{Symbol,PseudoObservable}())
 
     # Set settings
-    settings_duncan_nolan_flexprice!(m)
+    settings_dn_fp_checkopen!(m)
     default_test_settings!(m)
     for custom_setting in values(custom_settings)
         m <= custom_setting
@@ -247,14 +247,14 @@ end
 
 """
 ```
-init_parameters!(m::DuncanNolanFlexPrice)
+init_parameters!(m::DNFPCheckOpen)
 ```
 
 Initializes the model's parameters, as well as empty values for the steady-state
 parameters (in preparation for `steadystate!(m)` being called to initialize
 those).
 """
-function init_parameters!(m::DuncanNolanFlexPrice)
+function init_parameters!(m::DNFPCheckOpen)
     # Initialize parameters
 
     m <= parameter(:alpha, 0.25,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
@@ -341,17 +341,17 @@ end
 
 """
 ```
-steadystate!(m::DuncanNolanFlexPrice)
+steadystate!(m::DNFPCheckOpen)
 ```
 
 Calculates the model's steady-state values. `steadystate!(m)` must be called whenever
 the parameters of `m` are updated.
 """
-function steadystate!(m::DuncanNolanFlexPrice)
+function steadystate!(m::DNFPCheckOpen)
     return m
 end
 
-function settings_duncan_nolan_flexprice!(m::DuncanNolanFlexPrice)
+function settings_dn_fp_checkopen!(m::DNFPCheckOpen)
     default_settings!(m)
 
     # Data
@@ -376,7 +376,7 @@ function settings_duncan_nolan_flexprice!(m::DuncanNolanFlexPrice)
         "Value of the zero lower bound in forecast periods, if we choose to enforce it")
 end
 
-function shock_groupings(m::DuncanNolanFlexPrice)
+function shock_groupings(m::DNFPCheckOpen)
     gov = ShockGroup("g", [:g_sh], RGB(0.70, 0.13, 0.13)) # firebrick
     tfp = ShockGroup("z", [:z_sh], RGB(1.0, 0.55, 0.0)) # darkorange
     unc = ShockGroup("xi", [:xi_sh], RGB(1.0, 0.55, 0.0)) # darkorange

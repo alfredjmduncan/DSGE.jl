@@ -127,6 +127,7 @@ module DSGE
         DuncanNolanRBC,
         DuncanNolanFlexPrice,
         DuncanNolanEndowment,
+        DNFPCheckOpen,
         eqcond, measurement, pseudo_measurement,
         shock_groupings,
 
@@ -290,4 +291,13 @@ module DSGE
     include("models/duncan_nolan_endowment/pseudo_observables.jl")
     include("models/duncan_nolan_endowment/pseudo_measurement.jl")
     include("models/duncan_nolan_endowment/augment_states.jl")
+
+    include("models/dn_fp_checkopen/dn_fp_checkopen.jl")
+    include("models/dn_fp_checkopen/subspecs.jl")
+    include("models/dn_fp_checkopen/eqcond.jl")
+    include("models/dn_fp_checkopen/observables.jl")
+    include("models/dn_fp_checkopen/measurement.jl")
+    include("models/dn_fp_checkopen/pseudo_observables.jl")
+    include("models/dn_fp_checkopen/pseudo_measurement.jl")
+    include("models/dn_fp_checkopen/augment_states.jl")
 end
