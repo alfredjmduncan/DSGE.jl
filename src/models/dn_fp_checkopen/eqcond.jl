@@ -70,15 +70,16 @@ function eqcond(m::DNFPCheckOpen)
     ### 7. Entrepreneurs: Consumption savings
 
     Γ0[eq[:eq_entcon], endo[:ce_t]]      =  1
-    Γ1[eq[:eq_entcon], endo[:omegae_t]]  =  1
+    Γ0[eq[:eq_entcon], endo[:omegae_t]]  = -1
     Γ0[eq[:eq_entcon], endo[:re_t]]      = -1
 
     ### 8. Entrepreneurs: Leverage
 
     Γ0[eq[:eq_entlev], endo[:lev_t]]     = -1
     Γ0[eq[:eq_entlev], endo[:y_t]]       =  1
-    Γ1[eq[:eq_entlev], endo[:omegae_t]]  =  1
     Γ0[eq[:eq_entlev], endo[:r_t]]       = -1
+    Γ0[eq[:eq_entlev], endo[:ce_t]]      = -1
+    Γ0[eq[:eq_entlev], endo[:re_t]]      =  1
 
     ### 9. Entrepreneurs: Wedge
 
@@ -88,9 +89,14 @@ function eqcond(m::DNFPCheckOpen)
 
     ### 10. Entrepreneurs: Wealth evolution
 
-    Γ0[eq[:eq_entwel], endo[:omegae_t]] =  1
-    Γ0[eq[:eq_entwel], endo[:re_t]]     = -1
-    Γ1[eq[:eq_entwel], endo[:omegae_t]] =  1
+    Γ0[eq[:eq_entwel], endo[:ce_t]]  =  1
+    Γ0[eq[:eq_entwel], endo[:re_t]]  = -1
+    Γ1[eq[:eq_entwel], endo[:ce_t]]  =  1
+
+    Γ0[eq[:eq_entwel], endo[:c_t]]  =  -m[:wopen]
+    Γ0[eq[:eq_entwel], endo[:r_t]]  =   m[:wopen]
+    Γ1[eq[:eq_entwel], endo[:c_t]]  =  -m[:wopen]
+
 
     ### 11. Factor Prices: Capital
 
