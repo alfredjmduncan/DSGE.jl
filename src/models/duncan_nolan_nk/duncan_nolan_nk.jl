@@ -146,7 +146,7 @@ function init_model_indices!(m::DuncanNolanNK)
         :eq_entlev,
         :eq_entweg,
         :eq_entwel,
-        :eq_fpcap,
+        :eq_fperp,
         :eq_fplab,
         :eq_fisher,
         :eq_phillips, :eq_mp,
