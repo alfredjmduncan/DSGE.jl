@@ -151,7 +151,7 @@ function init_model_indices!(m::DuncanNolanNK)
         :eq_fisher,
         :eq_phillips, :eq_mp,
         :eq_nw,  :eq_nw_t1,
-        :eq_y_t1, :eq_g, :eq_z, :eq_Ec, :eq_Eπ])
+        :eq_y_t1, :eq_g, :eq_z, :eq_xi,:eq_Ec, :eq_Eπ])
 
     # Additional states added after solving model
     # Lagged states and observables measurement error
@@ -234,6 +234,11 @@ those).
 """
 function init_parameters!(m::DuncanNolanNK)
     # Initialize parameters
+
+    m <= parameter(:wopen, 1.0,fixed=true,# (1e-20, 1-1e-7), (1e-20, 1-1e-7), DSGE.SquareRoot(), Uniform(0,1), fixed=false,
+                   description="wopen: Weight on open aggregate risk markets.",
+                   tex_label="\\w_m")
+
     m <= parameter(:psi, 2.0, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="psi: The inverse of the Frisch labour supply elasticity.",
                    tex_label="\\psi")
@@ -242,19 +247,13 @@ function init_parameters!(m::DuncanNolanNK)
                    description="alpha: The capital share of output.",
                    tex_label="\\alpha")
 
-    m <= parameter(:phitau, 0.5, fixed=true, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.5, 0.25), fixed=false,
-                   description="phitau: Semi-elasticity of leverage to the factor wedge.",
-                   tex_label="\\phi_\tau")
+    m <= parameter(:L, 0.3,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.30, 0.05), fixed=false,
+                   description="L: Steady state leverage (GVA over net wealth).",
+                   tex_label="\\bar{l}")
 
-
-    m <= parameter(:psilev, 0.01, fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.01, 0.02), fixed=false,
-                   description="psilev: elasticity of ERP to leverage.",
-                   tex_label="\\psi_l")
-
-    m <= parameter(:psitau, 0.5, fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.5, 0.25), fixed=false,
-                   description="psitau: elasticity of ERP to tau.",
-                   tex_label="\\psi_\tau")
-
+    m <= parameter(:erp, 0.015,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.015, 0.005), fixed=false,
+                   description="ERP: Equity risk premium.",
+                   tex_label="erp")
 
     m <= parameter(:τ, 1.9937, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="τ: The inverse of the intemporal elasticity of substitution.",
@@ -296,6 +295,10 @@ function init_parameters!(m::DuncanNolanNK)
                    description="ρ_z: AR(1) coefficient on shocks to the technology growth rate.",
                    tex_label="\\rho_z")
 
+    m <= parameter(:ρ_xi, 0.5, (1e-20, 1-1e-7), (1e-20, 1-1e-7), DSGE.SquareRoot(), Uniform(0,1), fixed=false,
+                   description="ρ_xi: AR(1) coefficient on shocks to firm level uncertainty.",
+                   tex_label="\\rho_xi")
+
     m <= parameter(:σ_R, 0.4900, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), DSGE.RootInverseGamma(4, .4), fixed=false,
                    description="σ_R: Standard deviation of shocks to the nominal interest rate.",
                    tex_label="\\sigma_R")
@@ -307,6 +310,10 @@ function init_parameters!(m::DuncanNolanNK)
     m <= parameter(:σ_z, 0.9247, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), DSGE.RootInverseGamma(4, 0.5), fixed=false,
                    description="σ_z: Standard deviation of shocks to the technology growth rate process.",
                    tex_label="\\sigma_z")
+
+    m <= parameter(:σ_xi, 0.9247, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), DSGE.RootInverseGamma(4, 0.5), fixed=false,
+                   description="σ_xi: Standard deviation of shocks to the technology growth rate process.",
+                   tex_label="\\sigma_xi")
 
     m <= parameter(:e_y, 0.20*0.579923, fixed=true,
                    description="e_y: Measurement error on GDP growth.",

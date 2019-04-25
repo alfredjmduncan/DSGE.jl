@@ -58,26 +58,32 @@ function eqcond(m::DuncanNolanNK)
 
     Γ0[eq[:eq_entlev], endo[:lev_t]]     = -1
     Γ0[eq[:eq_entlev], endo[:y_t]]       =  1
-    Γ0[eq[:eq_entlev], endo[:omegae_t]]  = -1
     Γ0[eq[:eq_entlev], endo[:r_t]]       = -1
+    Γ0[eq[:eq_entlev], endo[:ce_t]]      = -1
+    Γ0[eq[:eq_entlev], endo[:re_t]]      =  1
 
     ### 6. Entrepreneurs: Wedge
 
     Γ0[eq[:eq_entweg], endo[:lev_t]] = -1
-    Γ0[eq[:eq_entweg], endo[:tau_t]] =  m[:phitau]
+    Γ0[eq[:eq_entweg], endo[:tau_t]] =  m[:L]
+    Γ0[eq[:eq_entweg], endo[:xi_t]]  = -(1+m[:erp])
 
     ### 7. Entrepreneurs: Wealth evolution
 
-    Γ0[eq[:eq_entwel], endo[:omegae_t]] = -1
-    Γ1[eq[:eq_entwel], endo[:re_t]]     = -1
-    Γ1[eq[:eq_entwel], endo[:omegae_t]] = -1
+    Γ0[eq[:eq_entwel], endo[:ce_t]]  =  1
+    Γ0[eq[:eq_entwel], endo[:re_t]]  = -1
+    Γ1[eq[:eq_entwel], endo[:ce_t]]  =  1
+
+    Γ0[eq[:eq_entwel], endo[:c_t]]  =  -m[:wopen]*m[:gamma]
+    Γ0[eq[:eq_entwel], endo[:r_t]]  =   m[:wopen]
+    Γ1[eq[:eq_entwel], endo[:c_t]]  =  -m[:wopen]*m[:gamma]
 
     ### 8. Factor Prices: Capital
 
-    Γ0[eq[:eq_fpcap], endo[:r_t]]   = -1
-    Γ0[eq[:eq_fpcap], endo[:re_t]]  =  1
-    Γ0[eq[:eq_fpcap], endo[:lev_t]] =  m[:psilev]
-    Γ0[eq[:eq_fpcap], endo[:tau_t]] =  m[:psitau]
+    Γ0[eq[:eq_fperp], endo[:re_t]]   = -1
+    Γ0[eq[:eq_fperp], endo[:r_t]]    =  1
+    Γ0[eq[:eq_fperp], endo[:lev_t]]  =  m[:erp]
+    Γ0[eq[:eq_fperp], endo[:tau_t]]  =  m[:L]
 
     ### 9. Factor Prices: Labor
 
@@ -94,9 +100,11 @@ function eqcond(m::DuncanNolanNK)
 
     ### 11. NK Phillips Curve
 
-    Γ0[eq[:eq_phillips], endo[:y_t]]   = -m[:κ]
+    Γ0[eq[:eq_phillips], endo[:w_t]]   = -m[:κ]
+    Γ0[eq[:eq_phillips], endo[:y_t]]   = m[:κ]
+    Γ0[eq[:eq_phillips], endo[:n_t]]   = -m[:κ]
+    Γ0[eq[:eq_phillips], endo[:tau_t]]   = -m[:κ]
     Γ0[eq[:eq_phillips], endo[:π_t]]   =  1
-    Γ0[eq[:eq_phillips], endo[:g_t]]   =  m[:κ]
     Γ0[eq[:eq_phillips], endo[:Eπ_t1]] = -1/(1+m[:rA]/400)
 
     ### 12. Monetary Policy Rule
@@ -135,6 +143,12 @@ function eqcond(m::DuncanNolanNK)
     Γ0[eq[:eq_z], endo[:z_t]] = 1
     Γ1[eq[:eq_z], endo[:z_t]] = m[:ρ_z]
     Ψ[eq[:eq_z],  exo[:z_sh]] = 1
+
+    ### 20. Uncertainty
+
+    Γ0[eq[:eq_xi], endo[:xi_t]] = 1
+    Γ1[eq[:eq_xi], endo[:xi_t]] = m[:ρ_xi]
+    Ψ[eq[:eq_xi],  exo[:xi_sh]] = 1
 
     ### 16. Expected output
 
