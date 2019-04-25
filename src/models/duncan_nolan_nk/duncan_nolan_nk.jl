@@ -126,7 +126,7 @@ function init_model_indices!(m::DuncanNolanNK)
         :n_t,   :w_t,
         :r_t,   :re_t,
         :c_t,   :ce_t,
-        :g_t,   :z_t,
+        :g_t,   :z_t,   :xi_t,
         :Ec_t1, :Eπ_t1])
 
     # Exogenous shocks
