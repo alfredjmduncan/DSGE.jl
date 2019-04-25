@@ -59,10 +59,11 @@ function measurement{T<:AbstractFloat}(m::DuncanNolanNK{T},
     EE[obs[:obs_gdp], endo[:y_t]]         = m[:e_y]^2
     EE[obs[:obs_cpi], endo[:π_t]]         = m[:e_π]^2
     EE[obs[:obs_nominalrate], endo[:R_t]] = m[:e_R]^2
-    EE[obs[:obs_wagsal], endo[:nw_t]]     = m[:e_nw]^2    
+    EE[obs[:obs_wagsal], endo[:nw_t]]     = m[:e_nw]^2
 
     # Variance of innovations
     QQ[exo[:z_sh],exo[:z_sh]]   = (m[:σ_z])^2
+    QQ[exo[:xi_sh],exo[:xi_sh]]   = (m[:σ_g])^2
     QQ[exo[:g_sh],exo[:g_sh]]   = (m[:σ_g])^2
     QQ[exo[:rm_sh],exo[:rm_sh]] = (m[:σ_R])^2
 

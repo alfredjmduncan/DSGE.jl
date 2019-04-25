@@ -372,6 +372,7 @@ end
 function shock_groupings(m::DuncanNolanNK)
     gov = ShockGroup("g", [:g_sh], RGB(0.70, 0.13, 0.13)) # firebrick
     tfp = ShockGroup("z", [:z_sh], RGB(1.0, 0.55, 0.0)) # darkorange
+    unc = ShockGroup("xi", [:xi_sh], RGB(1.0, 0.55, 0.0)) # darkorange    
     pol = ShockGroup("pol", vcat([:rm_sh], [Symbol("rm_shl$i") for i = 1:n_anticipated_shocks(m)]),
                      RGB(1.0, 0.84, 0.0)) # gold
     det = ShockGroup("dt", [:dettrend], :gray40)
