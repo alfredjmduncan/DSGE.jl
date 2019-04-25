@@ -131,7 +131,7 @@ function init_model_indices!(m::DuncanNolanNK)
 
     # Exogenous shocks
     exogenous_shocks = collect([
-        :z_sh, :g_sh, :rm_sh])
+        :z_sh, :xi_sh, :g_sh, :rm_sh])
 
     # Expectations shocks
     expected_shocks = collect([
