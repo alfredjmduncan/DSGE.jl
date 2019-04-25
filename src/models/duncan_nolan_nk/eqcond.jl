@@ -74,9 +74,9 @@ function eqcond(m::DuncanNolanNK)
     Γ0[eq[:eq_entwel], endo[:re_t]]  = -1
     Γ1[eq[:eq_entwel], endo[:ce_t]]  =  1
 
-    Γ0[eq[:eq_entwel], endo[:c_t]]  =  -m[:wopen]*m[:gamma]
+    Γ0[eq[:eq_entwel], endo[:c_t]]  =  -m[:wopen]*m[:τ]
     Γ0[eq[:eq_entwel], endo[:r_t]]  =   m[:wopen]
-    Γ1[eq[:eq_entwel], endo[:c_t]]  =  -m[:wopen]*m[:gamma]
+    Γ1[eq[:eq_entwel], endo[:c_t]]  =  -m[:wopen]*m[:τ]
 
     ### 8. Factor Prices: Capital
 
