@@ -383,7 +383,7 @@ end
 function shock_groupings(m::DNFPCheckOpen)
     gov = ShockGroup("g", [:g_sh], RGB(0.70, 0.13, 0.13)) # firebrick
     tfp = ShockGroup("z", [:z_sh], RGB(1.0, 0.55, 0.0)) # darkorange
-    unc = ShockGroup("xi", [:xi_sh], RGB(1.0, 0.55, 0.0)) # darkorange
+    unc = ShockGroup("xi", [:xi_sh], RGB(0.00, 0.00, 1.0)) # blue
     det = ShockGroup("dt", [:dettrend], :gray40)
 
     return [gov, tfp, unc, det]

@@ -103,9 +103,15 @@ function forecast{S<:AbstractFloat}(m::AbstractModel, system::System{S},
     end
 
     # Get variables necessary to enforce the zero lower bound in the forecast
-    ind_r = m.observables[:obs_nominalrate]
-    ind_r_sh = m.exogenous_shocks[:rm_sh]
-    zlb_value = forecast_zlb_value(m)
+    if enforce_zlb                    # added 
+        ind_r = m.observables[:obs_nominalrate]
+        ind_r_sh = m.exogenous_shocks[:rm_sh]
+        zlb_value = forecast_zlb_value(m)
+    else                              # added
+        ind_r::Int = -1               # added
+        ind_r_sh::Int = -1            # added
+        zlb_value::S = 0.13/4         # added
+    end                               # added
 
     forecast(system, z0, shocks; enforce_zlb = enforce_zlb,
         ind_r = ind_r, ind_r_sh = ind_r_sh, zlb_value = zlb_value)
