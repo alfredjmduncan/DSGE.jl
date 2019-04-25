@@ -22,7 +22,7 @@ function eqcond(m::DuncanNolanFlexPrice)
     eq   = m.equilibrium_conditions
 
     Γ0 = zeros(n_states(m), n_states(m))
-    Γ1 = zeros(n_states(m), n_states(m))
+    Γ1 = zeros(n_states(m), n_states(m)) 
     C  = zeros(n_states(m))
     Ψ  = zeros(n_states(m), n_shocks_exogenous(m))
     Π  = zeros(n_states(m), n_shocks_expectational(m))

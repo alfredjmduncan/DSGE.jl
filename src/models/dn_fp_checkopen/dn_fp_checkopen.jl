@@ -257,7 +257,7 @@ those).
 function init_parameters!(m::DNFPCheckOpen)
     # Initialize parameters
 
-    m <= parameter(:wopen, 0.5, (1e-20, 1-1e-7), (1e-20, 1-1e-7), DSGE.SquareRoot(), Uniform(0,1), fixed=false,
+    m <= parameter(:wopen, 1.0,fixed=true,# (1e-20, 1-1e-7), (1e-20, 1-1e-7), DSGE.SquareRoot(), Uniform(0,1), fixed=false,
                    description="wopen: Weight on open aggregate risk markets.",
                    tex_label="\\w_m")
 
