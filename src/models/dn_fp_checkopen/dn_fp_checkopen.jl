@@ -376,8 +376,8 @@ function settings_dn_fp_checkopen!(m::DNFPCheckOpen)
     # Forecast
     m <= Setting(:use_population_forecast, false,
                  "Whether to use population forecasts as data")
-    m <= Setting(:forecast_zlb_value, 0.13,
-        "Value of the zero lower bound in forecast periods, if we choose to enforce it")
+    #m <= Setting(:forecast_zlb_value, 0.13,
+    #    "Value of the zero lower bound in forecast periods, if we choose to enforce it")
 end
 
 function shock_groupings(m::DNFPCheckOpen)
