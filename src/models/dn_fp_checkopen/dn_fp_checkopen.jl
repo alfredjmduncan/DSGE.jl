@@ -261,15 +261,15 @@ function init_parameters!(m::DNFPCheckOpen)
                    description="wopen: Weight on open aggregate risk markets.",
                    tex_label="\\w_m")
 
-    m <= parameter(:alpha, 0.25,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(0.25, 0.05), fixed=false,
+    m <= parameter(:alpha, 0.37, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(0.37, 0.01), fixed=false,
                    description="alpha: The capital share of output.",
                    tex_label="\\alpha")
 
-    m <= parameter(:gamma, 1.9937,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+    m <= parameter(:gamma, 1.9937, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="gamma: The inverse of the intemporal elasticity of substitution.",
                    tex_label="\\gamma")
 
-    m <= parameter(:psi, 2.0,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
+    m <= parameter(:psi, 2.5,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), GammaAlt(2., 0.5), fixed=false,
                    description="psi: The inverse of the Frisch elasticity of labor supply.",
                    tex_label="\\psi")
 
@@ -289,7 +289,7 @@ function init_parameters!(m::DNFPCheckOpen)
                    description="ERP: Equity risk premium.",
                    tex_label="erp")
 
-    m <= parameter(:CoCtot, 0.8,fixed=true,# (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Uniform(.7, 0.95), fixed=false,
+    m <= parameter(:CoCtot, 0.8, (1e-20, 1e5), (1e-20, 1e5), DSGE.Exponential(), Normal(.8, 0.02), fixed=false,
                    description="C over Ctot: Household share of consumption.",
                    tex_label="CoCtot")
 
